@@ -1,0 +1,52 @@
+const myLibrary = []
+
+function Book(name, author, pages, status){
+    this.name = name;
+    this.author = author;
+    this.pages = pages;
+    this.status = status;
+}
+
+function addBookToLibrary(){
+    var name = document.getElementById('name');
+    var author = document.getElementById('author');
+    var pages = document.getElementById('pages');
+    var status = document.getElementById('status');
+    if(status.checked){
+        status = "read";
+    }
+    else{
+        status = "Not read";
+    }
+    if(name===""||author===""){
+        alert("error");
+    }
+    else{
+        myLibrary.push(new Book(name.value, author.value, pages.value, status));
+    }
+    
+}
+
+function listBooks(){
+    const container = document.getElementById('bookContainer');
+    container.innerHTML = ''; // Clear previous content
+
+    for (let i = 0; i < myLibrary.length; i++) {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        card.innerHTML = `
+            <h3>${myLibrary[i].name}</h3>
+            <p>Author: ${myLibrary[i].author}</p>
+            <p>Pages: ${myLibrary[i].pages}</p>
+            <p>Status: ${myLibrary[i].status}</p>
+        `;
+
+        container.appendChild(card);
+    }
+}
+
+document.getElementById('show').addEventListener('click', listBooks);
+
+document.getElementById('submit').addEventListener('click', addBookToLibrary);
+
