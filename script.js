@@ -8,9 +8,9 @@ function Book(name, author, pages, status){
 }
 
 function addBookToLibrary(){
-    var name = document.getElementById('name');
-    var author = document.getElementById('author');
-    var pages = document.getElementById('pages');
+    var name = document.getElementById('name').value;
+    var author = document.getElementById('author').value;
+    var pages = document.getElementById('pages').value;
     var status = document.getElementById('status');
     if(status.checked){
         status = "read";
@@ -22,9 +22,14 @@ function addBookToLibrary(){
         alert("error");
     }
     else{
-        myLibrary.push(new Book(name.value, author.value, pages.value, status));
+        myLibrary.push(new Book(name, author, pages, status));
     }
-    
+    listBooks();
+}
+
+function deleteBook(index) {
+    myLibrary.splice(index, 1);
+    listBooks(); // Update the list after deleting a book
 }
 
 function listBooks(){
@@ -40,10 +45,18 @@ function listBooks(){
             <p>Author: ${myLibrary[i].author}</p>
             <p>Pages: ${myLibrary[i].pages}</p>
             <p>Status: ${myLibrary[i].status}</p>
+            <button class="deleteButton" data-index="${i}">Delete</button>
         `;
 
         container.appendChild(card);
     }
+    const deleteButtons = document.querySelectorAll('.deleteButton');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const index = e.target.getAttribute('data-index');
+            deleteBook(index);
+        });
+    });
 }
 
 document.getElementById('show').addEventListener('click', listBooks);
